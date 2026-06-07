@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { Check, Play, RotateCcw, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { Check, Download, Play, RotateCcw, Trash2 } from "lucide-react";
 import { CopyButton } from "@/components/CopyButton";
 import { TeamCard } from "@/components/TeamCard";
 import { removePlayer, runDraw, togglePaid } from "@/lib/actions";
@@ -176,7 +177,13 @@ export default async function AdminPage({
 
       {draw ? (
         <section className="panel panel-pad" style={{ gridColumn: "1 / -1" }}>
-          <h2>Results</h2>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+            <h2>Results</h2>
+            <Link className="button ghost" href={`/admin/${pool.adminCode}/share`}>
+              <Download size={18} />
+              Download full share card
+            </Link>
+          </div>
           <div className="list">
             {players.map((player) => (
               <div key={player.id} className="panel panel-pad" style={{ boxShadow: "none" }}>
