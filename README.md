@@ -5,7 +5,7 @@ Mobile-first web app for creating, joining, drawing, revealing, and following a 
 ## Current Build
 
 - Next.js App Router and TypeScript.
-- Prisma schema with local SQLite database.
+- Prisma schema with Postgres deployment support.
 - Seeded 2026 tournament teams, ranking bands, groups, and a group-stage fixture/status screen.
 - Admin pool creation and dashboard.
 - Player join flow with 4-digit access code.
@@ -19,11 +19,15 @@ Mobile-first web app for creating, joining, drawing, revealing, and following a 
 ```bash
 npm install
 npm run prisma:generate
-npm run db:reset
 npm run dev
 ```
 
-The local database lives at `prisma/dev.db` and is ignored by git.
+For local database-backed development, set `DATABASE_URL` to a Postgres database URL, then run:
+
+```bash
+npm run db:migrate
+npm run seed
+```
 
 ## Useful Commands
 
@@ -31,8 +35,20 @@ The local database lives at `prisma/dev.db` and is ignored by git.
 npm run dev
 npm run build
 npm run lint
-npm run db:reset
+npm run db:migrate
+npm run seed
 ```
+
+## Railway
+
+Railway should provide a Postgres service and the app service should define:
+
+```bash
+DATABASE_URL=${{Postgres.DATABASE_URL}}
+NEXT_PUBLIC_APP_URL=https://your-railway-domain.up.railway.app
+```
+
+`railway.json` runs `prisma migrate deploy` and the production-safe seed before each deploy.
 
 ## Data Notes
 

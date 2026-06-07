@@ -90,18 +90,15 @@ function addDays(date: string, days: number) {
 }
 
 async function main() {
-  await prisma.auditEvent.deleteMany();
-  await prisma.drawAssignment.deleteMany();
-  await prisma.unassignedTeam.deleteMany();
-  await prisma.draw.deleteMany();
-  await prisma.player.deleteMany();
-  await prisma.pool.deleteMany();
-  await prisma.fixture.deleteMany();
-  await prisma.team.deleteMany();
-  await prisma.tournament.deleteMany();
-
-  const tournament = await prisma.tournament.create({
-    data: {
+  const tournament = await prisma.tournament.upsert({
+    where: { year: 2026 },
+    update: {
+      name: "FIFA World Cup 2026",
+      teamCount: 48,
+      startsAt: new Date("2026-06-11T19:00:00.000Z"),
+      endsAt: new Date("2026-07-19T22:00:00.000Z")
+    },
+    create: {
       name: "FIFA World Cup 2026",
       year: 2026,
       teamCount: 48,
@@ -115,8 +112,22 @@ async function main() {
   for (const [groupCode, teamNames] of Object.entries(groups)) {
     for (const teamName of teamNames) {
       const meta = teamMeta[teamName];
-      const team = await prisma.team.create({
-        data: {
+      const team = await prisma.team.upsert({
+        where: {
+          tournamentId_name: {
+            tournamentId: tournament.id,
+            name: teamName
+          }
+        },
+        update: {
+          displayName: teamName,
+          isoCode: meta.iso,
+          flagCode: meta.flag,
+          confederation: meta.confed,
+          fifaRanking: meta.rank,
+          groupCode
+        },
+        create: {
           tournamentId: tournament.id,
           name: teamName,
           displayName: teamName,
@@ -143,8 +154,23 @@ async function main() {
     ] as const;
 
     for (const [home, away, offset] of pairings) {
-      await prisma.fixture.create({
-        data: {
+      await prisma.fixture.upsert({
+        where: {
+          tournamentId_matchNumber: {
+            tournamentId: tournament.id,
+            matchNumber
+          }
+        },
+        update: {
+          homeTeamId: createdTeams.get(home)!,
+          awayTeamId: createdTeams.get(away)!,
+          stage: "Group stage",
+          groupCode,
+          startsAt: addDays(groupStartDates[groupCode], offset),
+          venue: "TBC",
+          city: "TBC"
+        },
+        create: {
           tournamentId: tournament.id,
           homeTeamId: createdTeams.get(home)!,
           awayTeamId: createdTeams.get(away)!,

@@ -3,14 +3,14 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Tournament {
   id        String    @id @default(cuid())
   name      String
-  year      Int
+  year      Int       @unique
   teamCount Int
   startsAt  DateTime
   endsAt    DateTime

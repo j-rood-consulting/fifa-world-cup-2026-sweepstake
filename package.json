@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node .next/standalone/server.js",
     "lint": "eslint . --max-warnings=0",
     "prisma:generate": "prisma generate",
-    "db:reset": "rm -f prisma/dev.db && prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma --script | sqlite3 prisma/dev.db && npm run seed",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "npm run seed",
     "seed": "tsx scripts/seed.ts"
   },
   "keywords": [],
