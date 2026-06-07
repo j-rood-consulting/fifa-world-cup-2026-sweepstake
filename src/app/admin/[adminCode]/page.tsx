@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Check, Download, Play, RotateCcw, Trash2 } from "lucide-react";
+import { RememberAdminPool } from "@/components/AdminPoolMemory";
 import { CopyButton } from "@/components/CopyButton";
 import { TeamCard } from "@/components/TeamCard";
 import { removePlayer, runDraw, togglePaid } from "@/lib/actions";
@@ -30,7 +31,7 @@ export default async function AdminPage({
   const canDraw = players.length >= pool.minimumPlayers;
   const joinUrl = `${getBaseUrl()}/join/${pool.joinCode}`;
   const adminUrl = `${getBaseUrl()}/admin/${pool.adminCode}`;
-  const whatsapp = `Join my FIFA World Cup 2026 Sweepstake pool: ${pool.name}\n\n${joinUrl}`;
+  const whatsapp = `Join my FIFA World Cup 2026 Sweepstake pool: ${pool.name}\n\nOpen this link, enter your name, and tap Join pool:\n${joinUrl}`;
 
   const assignmentsByPlayer = new Map<string, typeof draw.assignments>();
   for (const assignment of draw?.assignments ?? []) {
@@ -41,6 +42,7 @@ export default async function AdminPage({
 
   return (
     <main className="dashboard-grid">
+      <RememberAdminPool name={pool.name} adminCode={pool.adminCode} adminUrl={adminUrl} />
       <section className="form-stack">
         <div>
           <p className="eyebrow">Admin dashboard</p>
@@ -115,6 +117,7 @@ export default async function AdminPage({
       <aside className="form-stack">
         <section className="panel panel-pad">
           <h2>Share pool</h2>
+          <p className="muted">Send this to players. They just open the link, enter their name, and join.</p>
           <p className="muted">Pool code: <strong>{pool.joinCode}</strong></p>
           <div className="actions">
             <CopyButton value={joinUrl} label="Copy join link" />
@@ -125,7 +128,12 @@ export default async function AdminPage({
         <section className="panel panel-pad">
           <h2>Admin access</h2>
           <p className="muted">Admin code: <strong>{pool.adminCode}</strong></p>
-          <p className="muted">Keep this private. Anyone with this link can manage the pool and rerun the draw.</p>
+          <p className="muted">
+            Save this private link now. The player join link only contains the pool code, so it cannot be used to recover admin access.
+          </p>
+          <p className="notice">
+            This browser will remember recent admin pools, but if you switch device or clear browser data you will need this code or link.
+          </p>
           <div className="actions">
             <CopyButton value={adminUrl} label="Copy admin link" />
             <CopyButton value={pool.adminCode} label="Copy admin code" />

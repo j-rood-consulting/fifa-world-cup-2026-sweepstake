@@ -86,10 +86,26 @@ textarea {
   align-items: start;
 }
 
+.join-page {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.72fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.join-intro {
+  padding-top: 18px;
+}
+
+.join-card {
+  max-width: 440px;
+  justify-self: end;
+}
+
 .panel {
   border: 1px solid rgba(16, 20, 24, 0.1);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.98);
   box-shadow: 0 20px 70px rgba(4, 24, 18, 0.14);
 }
 
@@ -355,6 +371,33 @@ button.button {
   background: rgba(215, 181, 109, 0.16);
 }
 
+.flush-note {
+  margin: 6px 0 0;
+}
+
+.compact-form {
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(16, 20, 24, 0.1);
+}
+
+.quiet-return {
+  padding-top: 14px;
+  border-top: 1px solid rgba(16, 20, 24, 0.1);
+}
+
+.quiet-return h2 {
+  font-size: 1.1rem;
+}
+
+.recent-admin-pools {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(16, 20, 24, 0.1);
+}
+
 .reveal-stage {
   display: grid;
   place-items: center;
@@ -557,7 +600,7 @@ button.button {
   body {
     background:
       radial-gradient(circle at 10% -10%, rgba(215, 181, 109, 0.22), transparent 20rem),
-      linear-gradient(180deg, #092b22 0%, #0b3d2e 470px, #f7f5ef 470px, #f7f5ef 100%);
+      linear-gradient(180deg, #092b22 0%, #0b3d2e 560px, #f7f5ef 560px, #f7f5ef 100%);
   }
 
   .app-shell {
@@ -572,8 +615,18 @@ button.button {
   .hero-grid,
   .dashboard-grid,
   .results-grid,
+  .join-page,
   .two-col {
     grid-template-columns: 1fr;
+  }
+
+  .join-intro {
+    padding-top: 0;
+  }
+
+  .join-card {
+    max-width: none;
+    justify-self: stretch;
   }
 
   .stat-grid {

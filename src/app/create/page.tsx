@@ -44,7 +44,7 @@ export default function CreatePoolPage() {
           </div>
           <div className="notice">
             <strong>Advanced fields</strong>
-            <p className="muted" style={{ margin: "6px 0 0" }}>
+            <p className="muted flush-note">
               Leave these blank for Quick Draw. Fill them in when the pool needs payment tracking or prize notes.
             </p>
           </div>

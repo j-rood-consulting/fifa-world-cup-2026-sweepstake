@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Plus, Shield, Users } from "lucide-react";
+import { RecentAdminPools } from "@/components/AdminPoolMemory";
 
 export default function HomePage() {
   return (
@@ -29,9 +30,9 @@ export default function HomePage() {
       <aside className="form-stack">
         <section className="panel panel-pad" id="join">
           <h2>Join or return</h2>
-          <p className="muted">Use the pool code to join for the first time, or add your 4-digit player code to open your view.</p>
+          <p className="muted">Joining for the first time? Enter the pool code from your invite.</p>
           <form
-            className="form-stack"
+            className="form-stack compact-form"
             action={async (formData) => {
               "use server";
               const code = String(formData.get("joinCode") ?? "").trim().toUpperCase();
@@ -63,6 +64,7 @@ export default function HomePage() {
               }
             }}
           >
+            <p className="muted">Already joined? Use your player code to get back in.</p>
             <div className="two-col">
               <div className="field">
                 <label htmlFor="poolCode">Pool code</label>
@@ -79,7 +81,7 @@ export default function HomePage() {
 
         <section className="panel panel-pad" id="admin">
           <h2>Manage a pool</h2>
-          <p className="muted">Admins can return with the private admin code shown after setup.</p>
+          <p className="muted">Admins can return with the private admin code shown after setup. It is not included in the player join link.</p>
           <form
             className="form-stack"
             action={async (formData) => {
@@ -93,13 +95,14 @@ export default function HomePage() {
           >
             <div className="field">
               <label htmlFor="adminCode">Admin code</label>
-              <input id="adminCode" name="adminCode" placeholder="ADMIN123" />
+              <input id="adminCode" name="adminCode" placeholder="ABCD-2345-WXYZ" />
             </div>
             <button className="button" type="submit">
               Open dashboard
               <ArrowRight size={18} />
             </button>
           </form>
+          <RecentAdminPools />
         </section>
       </aside>
     </main>
