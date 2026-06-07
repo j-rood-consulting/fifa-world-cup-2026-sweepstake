@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Check, Copy, Play, RotateCcw, Trash2 } from "lucide-react";
+import { Check, Play, RotateCcw, Trash2 } from "lucide-react";
 import { CopyButton } from "@/components/CopyButton";
 import { TeamCard } from "@/components/TeamCard";
 import { removePlayer, runDraw, togglePaid } from "@/lib/actions";
@@ -28,6 +28,7 @@ export default async function AdminPage({
   const unassignedCount = players.length ? pool.tournament.teamCount - teamsPerPlayer * players.length : 0;
   const canDraw = players.length >= pool.minimumPlayers;
   const joinUrl = `${getBaseUrl()}/join/${pool.joinCode}`;
+  const adminUrl = `${getBaseUrl()}/admin/${pool.adminCode}`;
   const whatsapp = `Join my FIFA World Cup 2026 Sweepstake pool: ${pool.name}\n\n${joinUrl}`;
 
   const assignmentsByPlayer = new Map<string, typeof draw.assignments>();
@@ -117,6 +118,16 @@ export default async function AdminPage({
           <div className="actions">
             <CopyButton value={joinUrl} label="Copy join link" />
             <CopyButton value={whatsapp} label="Copy WhatsApp message" />
+          </div>
+        </section>
+
+        <section className="panel panel-pad">
+          <h2>Admin access</h2>
+          <p className="muted">Admin code: <strong>{pool.adminCode}</strong></p>
+          <p className="muted">Keep this private. Anyone with this link can manage the pool and rerun the draw.</p>
+          <div className="actions">
+            <CopyButton value={adminUrl} label="Copy admin link" />
+            <CopyButton value={pool.adminCode} label="Copy admin code" />
           </div>
         </section>
 

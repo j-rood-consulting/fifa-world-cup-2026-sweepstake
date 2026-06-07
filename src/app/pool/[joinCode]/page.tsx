@@ -78,9 +78,10 @@ export default async function PoolPage({
             <form className="form-stack" action={`/pool/${pool.joinCode}`} method="get">
               <h2>Enter player code</h2>
               <p className="muted">Use your 4-digit code to see your teams.</p>
+              {code ? <p className="notice">That player code was not found for this pool. Check the code and try again.</p> : null}
               <div className="field">
                 <label htmlFor="code">Player code</label>
-                <input id="code" name="code" inputMode="numeric" placeholder="1234" />
+                <input id="code" name="code" inputMode="numeric" placeholder="1234" defaultValue={code ?? ""} />
               </div>
               <button className="button" type="submit">Open my teams</button>
             </form>
